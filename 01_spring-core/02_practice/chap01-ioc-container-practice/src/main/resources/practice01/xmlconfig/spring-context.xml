@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id ="Board" class="com.bellrajin.common.BoardDTO">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg name="title" value="스프링 수업 어떠세요?"/>
+        <constructor-arg name="content" value="저는 새롭고 재밌네요"/>
+        <constructor-arg name="writer" value="개발자꿈나무"/>
+    </bean>
+
+
+</beans>
