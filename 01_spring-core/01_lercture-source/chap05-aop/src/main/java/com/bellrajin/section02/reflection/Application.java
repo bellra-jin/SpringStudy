@@ -1,9 +1,6 @@
 package com.bellrajin.section02.reflection;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 
 public class Application {
     public static void main(String[] args) {
@@ -78,7 +75,32 @@ public class Application {
         }
 
         // 메소드 정보에 접근
+        Method[] methods = Account.class.getMethods();
+        Method getBalanceMethod = null;
+        for (Method method : methods) {
+            System.out.println(Modifier.toString(method.getModifiers()) + " "
+                    + method.getReturnType().getSimpleName() + " "
+                    + method.getName() );
 
+            // 컨파일 시점에는 문자열이기 때문에 null값이 들어갈 확률이 높다. Exception 발생
+            // method.getName().equals("getBalance");
+
+            // null point Exception 발생되지 않는다.
+            if ("getBalance".equals(method.getName())) {
+                getBalanceMethod = method;
+            }
+        }
+
+        // 타켓 메소드 호출하는 방식인 invoke
+        try {
+            System.out.println(getBalanceMethod.invoke(((Account)constructors[2].newInstance())));
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
