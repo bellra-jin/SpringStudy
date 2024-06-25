@@ -9,7 +9,7 @@ public class MemberService {
 
     private final MemberDAO memberDAO;
 
-    public MemberService(MemberDAO memberDAO) {
+    public MemberService(final MemberDAO memberDAO) {
         this.memberDAO = memberDAO;
     }
 
