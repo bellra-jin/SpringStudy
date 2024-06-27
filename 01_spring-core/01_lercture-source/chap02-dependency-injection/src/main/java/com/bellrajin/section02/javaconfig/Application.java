@@ -12,7 +12,6 @@ public class Application {
                 new AnnotationConfigApplicationContext(ContextConfiguration.class);
 
         Member member = context.getBean(Member.class);
-
         System.out.println(member.getPersonalAccount().deposit(50000));
         System.out.println(member.getPersonalAccount().getBalance());
         System.out.println(member.getPersonalAccount().withdraw(20000));
