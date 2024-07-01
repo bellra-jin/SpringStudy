@@ -85,3 +85,6 @@ where
     menu_code = 24;
 
 select * from tbl_menu;
+
+
+desc tbl_menu;
