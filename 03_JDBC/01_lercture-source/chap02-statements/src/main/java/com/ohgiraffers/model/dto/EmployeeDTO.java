@@ -30,7 +30,7 @@ public class EmployeeDTO {
         return empName;
     }
 
-    public void setempName(String empName) {
+    public void setEmpName(String empName) {
         this.empName = empName;
     }
 

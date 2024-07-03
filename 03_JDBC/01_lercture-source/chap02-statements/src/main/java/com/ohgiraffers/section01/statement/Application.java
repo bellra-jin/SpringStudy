@@ -40,7 +40,7 @@ public class Application {
             while (rset.next()) {
                 EmployeeDTO row = new EmployeeDTO();
                 row.setEmpId(rset.getString("EMP_ID"));
-                row.setempName(rset.getString("EMP_NAME"));
+                row.setEmpName(rset.getString("EMP_NAME"));
 
                 empList.add(row);
             }
