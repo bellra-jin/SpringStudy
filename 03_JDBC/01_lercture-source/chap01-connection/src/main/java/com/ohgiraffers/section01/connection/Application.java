@@ -41,10 +41,12 @@ public class Application {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
