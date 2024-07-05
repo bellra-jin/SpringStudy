@@ -5,11 +5,10 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-    <h1>Response</h1>
+    <h1>Exception handler</h1>
     <ul>
-        <li><a href="response">응답 확인하기</a></li>
-        <li></li>
-        <li></li>
+        <li><a href="show404error">404 에러 확인</a></li>
+        <li><a href="show500error">500 에러 확인</a></li>
     </ul>
 </body>
 </html>
