@@ -5,10 +5,10 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-    <h1>Cookie Handling</h1>
-    <form action="cookie" method="post">
-        <label>firstName : </label><input type="text" name="firstName"><br>
-        <label>lastName : </label><input type="text" name="lastName"><br>
+    <h1>Session Object Handling</h1>
+    <form action="session" method="post">
+        <label>firstName : </label><input type="text" name ="firstName"><br>
+        <label>lastName : </label><input type="text" name ="lastName"><br>
         <input type="submit" value="전송">
     </form>
 </body>
