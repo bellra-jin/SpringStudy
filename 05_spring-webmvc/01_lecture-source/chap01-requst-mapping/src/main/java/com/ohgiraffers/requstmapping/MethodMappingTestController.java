@@ -1,0 +1,36 @@
+package com.ohgiraffers.requstmapping;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class MethodMappingTestController {
+
+    @RequestMapping("/menu/regist")
+    public String menuRegist(Model model) {
+
+        model.addAttribute("message", "GET 방식의 메뉴 등록용 핸들러 메소드 호출함...");
+
+        return "mappingResult";
+    }
+
+    @RequestMapping(value="/menu/modify", method = RequestMethod.GET)
+    public String modifyMenu(Model model) {
+
+        model.addAttribute("message", "GET 방식의 메뉴 수정용 핸들러 메소드 호출함..");
+
+        return "mappingResult";
+    }
+
+    // 요청 메소드 전용 어노테이션
+    /** 요청 메소드     어노테이션
+     *  POST          @PostMapping
+     *  GET           @GetMapping
+     *  PUT           @PUTMapping
+     *  DELETE        @DELETEMapping
+     *  PATCH         @PatchMapping
+     */
+}
