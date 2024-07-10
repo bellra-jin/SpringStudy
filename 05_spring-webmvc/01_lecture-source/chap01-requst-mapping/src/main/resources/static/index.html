@@ -20,5 +20,30 @@
         <input type="submit">
     </form>
 
+    <h3>GET : /menu/delete</h3>
+    <button onclick="location.href='/menu/delete'">GET 메뉴 삭제 요청</button>
+
+
+    <h3>POST : /menu/delete</h3>
+    <form action="/menu/delete" method="post">
+        <input type="submit">
+    </form>
+
+
+    <h2>2. 클리새에 요청 매핑하기</h2>
+    <h3>GET : /order/regist</h3>
+    <button onclick="location.href='/order/regist'">GET 주문 등록 요청</button>
+
+
+    <h3>GET : /order/modify</h3>
+    <button onclick="location.href='/order/modify'">GET 방식 주문 수정 요청</button>
+
+
+    <h3>GET : /order/delete</h3>
+    <button onclick="location.href='/order/delete'">GET 방식 주문 삭제 요청</button>
+
+    <h3>GET : /detail/{orderNo}</h3>
+    <button onclick="location.href='/order/detail/3'">GET 주문 상세보기 요청</button>
+
 </body>
 </html>
