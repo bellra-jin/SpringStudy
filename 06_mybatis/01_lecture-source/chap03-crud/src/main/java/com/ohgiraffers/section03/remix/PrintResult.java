@@ -1,10 +1,11 @@
-package com.ohgiraffers.section01.xmlconfig;
+package com.ohgiraffers.section03.remix;
+
 
 import java.util.List;
 
 public class PrintResult {
 
-    public void printMenuList(List<MenuDTO> menuList) {
+    public void printMenuList(List<com.ohgiraffers.section03.remix.MenuDTO> menuList) {
 
         menuList.forEach(System.out::println);
     }

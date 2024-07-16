@@ -1,4 +1,5 @@
-package com.ohgiraffers.section01.xmlconfig;
+package com.ohgiraffers.section03.remix;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class Application {
             int no = sc.nextInt();
 
             switch (no) {
-                case 1: menuController.finalAllMenus(); break;
+                case 1: menuController.findAllMenus(); break;
                 case 2: menuController.findMenuByMenuCode(inputMenuCode()); break;
                 case 3: menuController.registMenu(inputMenu()); break;
                 case 4: menuController.modifyMenu(inputModifyMenu()); break;

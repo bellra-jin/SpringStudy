@@ -13,13 +13,62 @@
     </resultMap>
     <select id="findAllMenus" resultMap="menuResultMap">
         SELECT
-              MENU_CODE
-            , MENU_NAME
-            , MENU_PRICE
-            , CATEGORY_CODE
-            , ORDERABLE_STATUS
+            MENU_CODE
+          , MENU_NAME
+          , MENU_PRICE
+          , CATEGORY_CODE
+          , ORDERABLE_STATUS
         FROM TBL_MENU
         WHERE ORDERABLE_STATUS = 'Y'
         ORDER BY MENU_CODE
     </select>
+
+    <select id="findMenuByMenuCode" resultMap="menuResultMap" parameterType="_int">
+        SELECT
+            MENU_CODE
+          , MENU_NAME
+          , MENU_PRICE
+          , CATEGORY_CODE
+          , ORDERABLE_STATUS
+        FROM TBL_MENU
+        WHERE ORDERABLE_STATUS = 'Y'
+            AND MENU_CODE = #{ menuCode }
+
+    </select>
+
+    <insert id="registMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+        INSERT
+            INTO TBL_MENU
+        (
+            MENU_NAME
+          , MENU_PRICE
+          , CATEGORY_CODE
+          , ORDERABLE_STATUS
+        )
+        VALUES
+        (
+             #{ menuName }
+           , #{ menuPrice }
+           , #{ categoryCode }
+           , 'Y'
+        )
+    </insert>
+    <update id="modifyMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+        UPDATE
+            TBL_MENU
+        SET
+            menu_name = #{menuName}
+          , menu_price = #{menuPrice}
+          , category_code = #{categoryCode}
+        where
+            menu_code = #{menuCode}
+
+    </update>
+    <delete id="removeMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+        delete
+            from
+                tbl_menu
+        where
+            menu_code = #{menuCode}
+    </delete>
 </mapper>
