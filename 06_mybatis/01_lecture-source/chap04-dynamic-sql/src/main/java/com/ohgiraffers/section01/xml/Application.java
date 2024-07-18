@@ -1,5 +1,7 @@
 package com.ohgiraffers.section01.xml;
 
+import com.ohgiraffers.common.SearchCriteria;
+
 import java.util.Scanner;
 
 public class Application {
@@ -45,7 +47,7 @@ public class Application {
 
             switch (no) {
                 case 1: menuService.findMenuByPrice(inputPrice()); break;
-                case 2:
+                case 2: menuService.searchMenu(inputSearchCriteria()); break;
                 case 9: return;
             }
 
@@ -60,5 +62,16 @@ public class Application {
         int price = sc.nextInt();
 
         return price;
+    }
+
+    private static SearchCriteria inputSearchCriteria() {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("검색 기준을 입력해주세요(name or category) : ");
+        String condition = sc.nextLine();
+        System.out.println("검색어를 입력해주세요 : ");
+        String value = sc.nextLine();
+
+        return new SearchCriteria(condition, value);
     }
 }

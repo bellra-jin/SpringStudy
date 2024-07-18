@@ -21,7 +21,7 @@
            , A.orderable_status
         from tbl_menu A
         where A.orderable_status = 'Y'
-        <if test="price gt 0 and price lte 10000"> <!-- OGNL 표기법  ex ) gr, let -->
+        <if test="price gt 0 and price lte 10000"> <!-- OGNL 표기법  ex ) gt, let -->
         <![CDATA[
           and A.menu_price < #{ price }
         ]]>

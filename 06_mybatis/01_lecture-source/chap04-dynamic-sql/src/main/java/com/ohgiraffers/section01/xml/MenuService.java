@@ -1,6 +1,7 @@
 package com.ohgiraffers.section01.xml;
 
 import com.ohgiraffers.common.MenuDTO;
+import com.ohgiraffers.common.SearchCriteria;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -34,5 +35,10 @@ public class MenuService {
             System.out.println("메뉴 조회를 실패하셨습니다!");
         }
         
+    }
+
+    public void searchMenu(SearchCriteria searchCriteria) {
+
+
     }
 }
