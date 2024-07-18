@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.section01.xml.DynamicSqlMapper">
+
+    <resultMap id="menuResultMap" type="com.ohgiraffers.common.MenuDTO">
+        <id property="menuCode" column="MENU_CODE"/>
+        <result property="menuName" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+    </resultMap>
+
+    <select id="findMenuByPrice" parameterType="hashmap" resultMap="menuResultMap">
+        select /*+ com.ohgiraffers.section01.xml.DynamicSqlMapper#findMenuByPrice() */
+             A.menu_code
+           , A.menu_name
+           , A.menu_price
+           , A.category_code
+           , A.orderable_status
+        from tbl_menu A
+        where A.orderable_status = 'Y'
+        <if test="price gt 0 and price lte 10000"> <!-- OGNL 표기법  ex ) gr, let -->
+        <![CDATA[
+          and A.menu_price < #{ price }
+        ]]>
+        </if>
+        <if test="price gt 10000 and price lte 20000">
+            and A.menu_price between 10000 and #{ price }
+        </if>
+        <if test="price gt 20000 and price lte 30000">
+            and A.menu_price between 20000 and #{ price }
+        </if>
+        <if test="price gt 30000">
+            and A.menu_price between 30000 and #{ price }
+        </if>
+           order by A.menu_code
+    </select>
+
+</mapper>

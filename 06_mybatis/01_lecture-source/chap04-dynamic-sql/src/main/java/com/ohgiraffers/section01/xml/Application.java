@@ -40,7 +40,7 @@ public class Application {
             System.out.println("1. 원하는 금액대에 적합한 추천 메뉴 보여주기");
             System.out.println("2. 메뉴 이름 혹은 카테고리명으로 검색하여 메뉴 목록 보여주기");
             System.out.println("9. 이전 메뉴로");
-            System.out.println("메뉴 번호를 읿력하세요");
+            System.out.println("메뉴 번호를 입력하세요");
             int no = sc.nextInt();
 
             switch (no) {
