@@ -39,6 +39,20 @@ public class MenuService {
 
     public void searchMenu(SearchCriteria searchCriteria) {
 
+        SqlSession sqlSession = getSqlSession();
+        DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+
+        List<MenuDTO> menuList = mapper.searchMenu(searchCriteria);
+
+        if(menuList != null) {
+            if (menuList.size() == 0) {
+                System.out.println("검색 결과가 존재하지 않습니다.");
+            } else {
+                menuList.forEach(System.out::println);
+            }
+        } else {
+            System.out.println("검색에 실패하셨습니다.");
+        }
 
     }
 }

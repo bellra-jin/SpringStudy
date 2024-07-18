@@ -38,4 +38,25 @@
            order by A.menu_code
     </select>
 
+    <select id="searchMenu" parameterType="SearchCriteria" resultMap="menuResultMap">
+        select
+            A.menu_code
+            , A.menu_name
+            , A.menu_price
+            , A.category_code
+            , A.orderable_status
+        from tbl_menu A
+        <if test="condition == 'category'">
+            join tbl_category B on (A.category_code = B.category_code)
+        </if>
+        where A.orderable_status = 'Y'
+        <if test="condition == 'name'">
+            and A.menu_name like concat('%', #{ value }, '%')
+        </if>
+        <if test="condition == 'category'">
+            and B.category_name = #{ value }
+        </if>
+        order by A.menu_code
+    </select>
+
 </mapper>
