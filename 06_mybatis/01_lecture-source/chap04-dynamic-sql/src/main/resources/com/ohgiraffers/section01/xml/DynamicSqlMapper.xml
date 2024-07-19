@@ -13,50 +13,137 @@
     </resultMap>
 
     <select id="findMenuByPrice" parameterType="hashmap" resultMap="menuResultMap">
-        select /*+ com.ohgiraffers.section01.xml.DynamicSqlMapper#findMenuByPrice() */
-             A.menu_code
-           , A.menu_name
-           , A.menu_price
-           , A.category_code
-           , A.orderable_status
-        from tbl_menu A
-        where A.orderable_status = 'Y'
-        <if test="price gt 0 and price lte 10000"> <!-- OGNL 표기법  ex ) gt, let -->
-        <![CDATA[
-          and A.menu_price < #{ price }
+        SELECT /*+ com.ohgiraffers.section01.xml.DynamicSqlMapper#findMenuByPrice() */
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        <if test="price gt 0 and price lte 10000">
+            <![CDATA[
+           AND A.MENU_PRICE < #{ price }
         ]]>
         </if>
         <if test="price gt 10000 and price lte 20000">
-            and A.menu_price between 10000 and #{ price }
+            AND A.MENU_PRICE BETWEEN 10000 AND #{ price }
         </if>
         <if test="price gt 20000 and price lte 30000">
-            and A.menu_price between 20000 and #{ price }
+            AND A.MENU_PRICE BETWEEN 20000 AND #{ price }
         </if>
         <if test="price gt 30000">
-            and A.menu_price between 30000 and #{ price }
+            AND A.MENU_PRICE BETWEEN 30000 AND #{ price }
         </if>
-           order by A.menu_code
+        ORDER BY A.MENU_CODE
     </select>
 
     <select id="searchMenu" parameterType="SearchCriteria" resultMap="menuResultMap">
-        select
-            A.menu_code
-            , A.menu_name
-            , A.menu_price
-            , A.category_code
-            , A.orderable_status
-        from tbl_menu A
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
         <if test="condition == 'category'">
-            join tbl_category B on (A.category_code = B.category_code)
+            JOIN TBL_CATEGORY B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
         </if>
-        where A.orderable_status = 'Y'
+        WHERE A.ORDERABLE_STATUS = 'Y'
         <if test="condition == 'name'">
-            and A.menu_name like concat('%', #{ value }, '%')
+            AND A.MENU_NAME LIKE CONCAT('%', #{ value }, '%')
         </if>
         <if test="condition == 'category'">
-            and B.category_name = #{ value }
+            AND B.CATEGORY_NAME = #{ value }
         </if>
-        order by A.menu_code
+        ORDER BY A.MENU_CODE
     </select>
 
+    <select id="searchMenuBySupCategory" resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        <choose>
+            <when test="value == '식사'">
+                AND A.CATEGORY_CODE IN (4, 5, 6, 7)
+            </when>
+            <when test="value == '음료'">
+                AND A.CATEGORY_CODE IN (8, 9, 10)
+            </when>
+            <otherwise>
+                AND A.CATEGORY_CODE IN (11, 12)
+            </otherwise>
+        </choose>
+        ORDER BY A.MENU_CODE
+    </select>
+
+    <select id="searchMenuByRandomMenuCode" resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        AND A.MENU_CODE IN
+        <foreach collection="randomMenuCodeList" item="menuCode" open="(" close=")" separator=",">
+            #{ menuCode }
+        </foreach>
+    </select>
+
+    <select id="searchMenuByCodeOrSearchAll" resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        <if test="condition != null and condition eq 'menuCode'">
+            <where>
+                A.MENU_CODE = #{ value }
+            </where>
+        </if>
+    </select>
+
+    <select id="searchMenuByNameOrCategory" resultMap="menuResultMap">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="nameValue != null">
+                A.MENU_NAME LIKE CONCAT('%', #{ nameValue }, '%')
+            </if>
+            <if test="categoryValue != null">
+                AND A.CATEGORY_CODE = #{ categoryValue }
+            </if>
+        </trim>
+    </select>
+
+    <update id="modifyMenu" parameterType="hashmap">
+        UPDATE
+                TBL_MENU
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="name != null and name != ''">
+                MENU_NAME = #{ menuName }
+            </if>
+            <if test="categoryCode != null and categoryCode gt 0">
+            , CATEGORY_CODE = #{ categoryCode }
+            </if>
+            <if test="orderableStatus != null and orderableStatus != ''">
+            , ORDERABLE_STATUS = #{ orderableStatus }
+            </if>
+        </trim>
+        WHERE MENU_CODE = #{ menuCode }
+    </update>
 </mapper>
