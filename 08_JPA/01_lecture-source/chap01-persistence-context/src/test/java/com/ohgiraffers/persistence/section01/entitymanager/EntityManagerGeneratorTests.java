@@ -63,7 +63,7 @@ public class EntityManagerGeneratorTests {
     @DisplayName("엔티티 매니저 생성 확인")
     void testGenerateEntityManager() {
 
-        EntityManager manager = EntityManagerGernerator.getInstance();
+        EntityManagerFactory manager = EntityManagerFactoryGenerator.getInstance();
 
         Assertions.assertNotNull(manager);
     }
@@ -73,8 +73,8 @@ public class EntityManagerGeneratorTests {
     @DisplayName("엔티티 매니저 생명주기 확인")
     void testEntityMangerLifeCycle() {
 
-        EntityManager manager1 = EntityManagerGernerator.getInstance();
-        EntityManager manager2 = EntityManagerGernerator.getInstance();
+        EntityManagerFactory manager1 = EntityManagerFactoryGenerator.getInstance();
+        EntityManagerFactory manager2 = EntityManagerFactoryGenerator.getInstance();
 
         Assertions.assertNotEquals(manager1, manager2);
     }

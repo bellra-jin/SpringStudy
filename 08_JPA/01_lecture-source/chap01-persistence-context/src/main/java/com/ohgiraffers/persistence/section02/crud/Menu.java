@@ -46,6 +46,14 @@ public class Menu {
     public int getMenuCode() {
         return menuCode;
     }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
 }
 
 

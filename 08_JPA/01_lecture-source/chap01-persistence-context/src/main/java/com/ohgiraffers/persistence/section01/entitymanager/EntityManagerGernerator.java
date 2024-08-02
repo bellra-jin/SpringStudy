@@ -1,5 +1,6 @@
 package com.ohgiraffers.persistence.section01.entitymanager;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
