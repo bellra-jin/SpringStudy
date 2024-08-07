@@ -8,10 +8,10 @@ import java.io.Serializable;
 @Embeddable
 public class OrderMenuPK implements Serializable {
 
-    @Column(name = "ORDER_CODE")
+    @Column(name="ORDER_CODE")
     private int orderCode;
 
-    @Column(name = "MENU_CODE")
+    @Column(name="MENU_CODE")
     private int menuCode;
 
     public OrderMenuPK() {}
@@ -32,8 +32,8 @@ public class OrderMenuPK implements Serializable {
     @Override
     public String toString() {
         return "OrderMenuPK{" +
-                "orderCode='" + orderCode + '\'' +
-                ", menuCode='" + menuCode + '\'' +
+                "orderCode=" + orderCode +
+                ", menuCode=" + menuCode +
                 '}';
     }
 }

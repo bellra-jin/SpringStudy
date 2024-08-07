@@ -1,8 +1,8 @@
 package assocication.section02.onetomany;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,7 +14,6 @@ public class OrderRegistService {
 
     private OrderRepository orderRepository;
 
-
     @Autowired
     public OrderRegistService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -22,6 +21,7 @@ public class OrderRegistService {
 
     @Transactional
     public void registOrder(List<OrderMenuDTO> orderInfo) {
+
         List<OrderMenu> orderMenus = orderInfo.stream()
                 .map(orderDetail -> new OrderMenu(new OrderMenuPK(0, orderDetail.getMenuCode()), orderDetail.getOrderAmount()))
                 .collect(Collectors.toList());
@@ -32,8 +32,7 @@ public class OrderRegistService {
                 95000,
                 orderMenus
         );
+
         orderRepository.save(order);
-
     }
-
 }

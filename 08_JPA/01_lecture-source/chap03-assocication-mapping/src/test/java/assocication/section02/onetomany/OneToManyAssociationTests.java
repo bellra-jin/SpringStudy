@@ -6,8 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,6 +19,11 @@ public class OneToManyAssociationTests {
 
     @Autowired
     private OrderRegistService orderRegistService;
+
+    @Autowired
+    private OrderFindService orderFindService;
+
+
 
     private static Stream<Arguments> orderInfo() {
         return Stream.of(
@@ -36,6 +43,20 @@ public class OneToManyAssociationTests {
 
         Assertions.assertDoesNotThrow(
                 () -> orderRegistService.registOrder(orderInfo)
+        );
+    }
+
+    @DisplayName("일대다 연관관계 조회 테스트")
+    @ParameterizedTest
+    @ValueSource(ints = {3, 4})
+    @Transactional
+    void testFindOrderByOrderCode(int orderCode) {
+
+        Assertions.assertDoesNotThrow(
+                () -> {
+                    List<Order> orders = orderFindService.findOrderByOrderCode(orderCode);
+                    orders.forEach(System.out::println);
+                }
         );
     }
 

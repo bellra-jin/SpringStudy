@@ -13,26 +13,27 @@ import java.util.List;
 public class Order {
 
     @Id
-    @Column(name = "ORDER_CODE")
+    @Column(name="ORDER_CODE")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderCode;
 
     @Column(name="ORDER_DATE")
     private String orderDate;
 
-    @Column(name = "ORDER_TIME")
+    @Column(name="ORDER_TIME")
     private String orderTime;
 
-    @Column(name = "TOTAL_ORDER_PRICE")
+    @Column(name="TOTAL_ORDER_PRICE")
     private int totalOrderPrice;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinColumn(name="ORDER_CODE")
+    @OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="ORDER_CODE", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<OrderMenu> orderMenus;
 
-    public Order(){}
+    public Order() {}
 
-    public Order(LocalDate orderDate, LocalTime orderTime, int totalOrderPrice, List<OrderMenu> orderMenus) {
+    public Order(LocalDate orderDate, LocalTime orderTime,
+                 int totalOrderPrice, List<OrderMenu> orderMenus) {
 
         this.orderDate = orderDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         this.orderTime = orderTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));

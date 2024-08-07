@@ -2,8 +2,13 @@ package assocication.section02.onetomany;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "tbl_order_menu")
+@Table(name="TBL_ORDER_MENU")
 public class OrderMenu {
 
     @EmbeddedId
