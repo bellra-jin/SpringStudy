@@ -4,11 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @SpringBootTest
 public class SimpleJPQLTests {
@@ -58,5 +62,56 @@ public class SimpleJPQLTests {
         Assertions.assertNotNull(foundMenus);
         foundMenus.forEach(System.out::println);
     }
+
+    @DisplayName("Query를 이용한 다중행 조회 테스트")
+    @Test
+    void testMultiRowResultWithQuery() {
+
+        List<Menu> foundMenus = menuFindService.findAllMenusWithQuery();
+
+        Assertions.assertNotNull(foundMenus);
+
+        foundMenus.forEach(System.out::println);
+    }
+
+    @DisplayName("DISINCT를 활용한 중복 제거 여러 행 조회 테스트")
+    @Test
+    void testDistinctKeyWord() {
+
+        List<Integer> categoryCodes = menuFindService.findAllCategoryCodeInMenu();
+
+        Assertions.assertNotNull(categoryCodes);
+        categoryCodes.forEach(System.out::println);
+    }
+
+    private static Stream<Arguments> menuCodeList() {
+        return Stream.of(
+                Arguments.of(List.of(4,5,6,7)),
+                Arguments.of(List.of(8,9,10)),
+                Arguments.of(List.of(11,12))
+        );
+
+    }
+
+    @DisplayName("IN 연산자를 활용한 조회 테스트")
+    @ParameterizedTest
+    @MethodSource("menuCodeList")
+    void testInOperator(List<Integer> categoryCode) {
+        List<Menu> foundMenus = menuFindService.findMenusInCategoryCodes(categoryCode);
+        Assertions.assertNotNull(foundMenus);
+        foundMenus.forEach(System.out::println);
+    }
+
+    @DisplayName("LIKE 연산자를 활용한 조회 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"딸기", "밥", "마늘"})
+    void testLikeOperator(String searchValue) {
+        List<Menu> foundMenus = menuFindService.searchMenuBySearchValue(searchValue);
+
+        Assertions.assertNotNull(foundMenus);
+        foundMenus.forEach(System.out::println);
+    }
+
+
 
 }

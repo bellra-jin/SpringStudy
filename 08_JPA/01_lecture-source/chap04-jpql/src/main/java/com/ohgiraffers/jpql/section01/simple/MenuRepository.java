@@ -40,4 +40,45 @@ public class MenuRepository {
 
         return query.getResultList();
     }
+
+    public List<Menu> findAllMenusWithQuery() {
+
+        String jpql = "SELECT m FROM Section01Menu as m";
+        Query query = manager.createQuery(jpql);
+
+        return query.getResultList();
+    }
+
+    public List<Integer> findAllCategoryCodeInMenu() {
+        String jpql = "select distinct m.categoryCode from Section01Menu as m";
+        TypedQuery<Integer> query = manager.createQuery(jpql, Integer.class);
+        return query.getResultList();
+    }
+
+    public List<Menu> findMenusInCategoryCodes(List<Integer> categoryCodes) {
+
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("SELECT m FROM Section01Menu m WHERE m.categoryCode in(");
+        int categoryCodeSize = categoryCodes.size();
+        for (int i = 0; i < categoryCodeSize; i++) {
+            jpql.append(categoryCodes.get(i));
+            if(i != categoryCodeSize -1) {
+                jpql.append(",");
+            }
+        }
+        jpql.append(")");
+
+        TypedQuery<Menu> query = manager.createQuery(jpql.toString(), Menu.class);
+        return query.getResultList();
+    }
+
+    public List<Menu> searchMenuBySearchValue(String searchValue) {
+
+        String jpql = "SELECT m FROM Section01Menu m WHERE m.menuName LIKE CONCAT('%', :searchValue, '%')";
+
+        return manager.createQuery(jpql, Menu.class)
+                .setParameter("searchValue", searchValue)
+                .getResultList();
+
+    }
 }

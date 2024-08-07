@@ -27,4 +27,22 @@ public class MenuFindService {
 
         return menuRepository.findAllMenusWithTypedQuery();
     }
+
+    public List<Menu> findAllMenusWithQuery() {
+        return menuRepository.findAllMenusWithQuery();
+    }
+
+    public List<Integer> findAllCategoryCodeInMenu() {
+
+        return menuRepository.findAllCategoryCodeInMenu();
+    }
+
+    public List<Menu> findMenusInCategoryCodes(List<Integer> categoryCodes) {
+        return menuRepository.findMenusInCategoryCodes(categoryCodes);
+    }
+
+    public List<Menu> searchMenuBySearchValue(String searchValue) {
+
+        return menuRepository.searchMenuBySearchValue(searchValue);
+    }
 }
