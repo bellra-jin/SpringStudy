@@ -11,6 +11,7 @@ public class SubqueryService {
 
     private SubqueryRepository subqueryRepository;
 
+
     @Autowired
     public SubqueryService(SubqueryRepository subqueryRepository) {
         this.subqueryRepository = subqueryRepository;
