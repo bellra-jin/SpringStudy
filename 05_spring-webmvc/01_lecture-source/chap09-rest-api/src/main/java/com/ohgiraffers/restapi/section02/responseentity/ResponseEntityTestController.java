@@ -76,10 +76,31 @@ public class ResponseEntityTestController {
     }
 
     @PutMapping("/users/{userNo}")
-    public ResponseEntity<?> modifyUser(@RequestBody UserDTO modifyDTO, @PathVariable int userNo) {
+    public ResponseEntity<?> modifyUser(@RequestBody UserDTO modifyInfo, @PathVariable int userNo) {
+
+        UserDTO foundUser =
+                users.stream().filter(user -> user.getNo() == userNo)
+                        .collect(Collectors.toList()).get(0);
+
+        foundUser.setId(modifyInfo.getId());
+        foundUser.setPwd(modifyInfo.getPwd());
+        foundUser.setName(modifyInfo.getName());
 
         return ResponseEntity
                 .created(URI.create("/entity/users/" + userNo))
                 .build();
     }
+
+    @DeleteMapping("/users/{userNo}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userNo) {
+        UserDTO foundUser = users.stream().filter(user -> user.getNo() == userNo)
+                .toList().get(0);
+        users.remove(foundUser);
+
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 }
