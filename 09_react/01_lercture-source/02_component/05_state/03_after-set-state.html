@@ -16,6 +16,16 @@
         // 두 번째 인자로 콜백함수를 전달하여 처리할 수 있다.
         // setStat(변경할state,()=>{ setState 이후 실행할 내용 });
 
+
+        // props vs state
+        // 공통점 : Component에서 사용되는 값
+        // 차이첨 :
+        // props : 컴포넌트 외부에서 컴포넌트로 전달되는 값
+        // state : 컴포넌트 내부에서 정의되는 값
+
+        // props : 변경하지 않고 읽기 전용(read only)으로 사용되는 값
+        // state : 변경이 될 값
+
         class Light extends React.Component {
 
             state = {
