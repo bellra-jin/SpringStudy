@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body{
+            height: 100vh;
+        }
+        #root {
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-color: aliceblue;
+        }
+        #header {
+            height: 90px;
+            background-color: black;
+            color: #fff;
+            padding: 0.5rem 0;
+            margin-bottom: 5rem;
+        }
+        ul {
+            text-align: left;
+            max-width: 800px;
+            width: 90%;
+            height: 500px;
+            border: 1px solid #ccc;
+            padding: 1rem 1rem;
+            margin: 0 auto;
+            background-color: #fff;
+            margin-bottom: 2rem;
+        }
+        li {
+            line-height: 3rem;
+            display: flex;
+            align-items: center;
+        }
+        li>input {
+            margin-right: 1rem;
+        }
+        li>span {
+            margin-right: 1rem;
+        }
+        li>button {
+            border-radius: 50px;
+            border: transparent;
+            background: red;
+            color: white;
+            width: 20px;
+            height: 20px;
+            line-height: 1rem;
+        }
+        #input2{
+            margin-bottom: 5rem;
+        }
+        #submit {
+            background-color: rgb(132, 132, 50);
+            color: #fff;
+            border: transparent;
+            border-radius: 2px;
+            padding: 0.3rem;
+        }
+        #footer {
+            height: 50px;
+            background-color: black;
+            color: #fff;
+            padding: 0.5rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const {useState} = React;
+
+        const today = new Date();
+        const formattedDate = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}.`;
+
+        function Header() {
+            return (
+                <header id="header">
+                    <h2>오늘의 할일! {formattedDate}</h2>
+                </header>
+            );
+        }
+
+        function Footer() {
+            return (
+                <footer id="footer">
+                    <p>&copy; 2024 My To-Do App. All rights reserved.</p>
+                </footer>
+            );
+        }
+
+        function App() {
+            const [contents, setContents] = useState([
+                {id: 1, completed: false, content: '오늘의 할일 목록'},
+                {id: 2, completed: true, content: '새로운 할일'}
+            ]);
+            const [inputText, setInputText] = useState('');
+            const [nextId, setNextId] = useState(3);
+
+            const onChangeHandler = e => setInputText(e.target.value);
+            const onClickHandler = e => {
+            const newContent = {
+                id: nextId,
+                completed: false,
+                content: inputText
+            };
+            const changedContents = contents.concat(newContent);
+            setNextId(nextId + 1);
+            setContents(changedContents);
+            setInputText('');
+        }
+
+            const onCheckboxChange = (id) => {
+                const updatedContents = contents.map(content => content.id === id ? {...content, completed: !content.completed} :content);
+                setContents(updatedContents);
+            }
+
+            const onDeleteHandler = (id) => {
+                const updatedContents = contents.filter(content => content.id !== id);
+                setContents(updatedContents);
+            }
+
+            
+            const contentList = contents.map(content => (
+                <li key={content.id}>
+                    <input 
+                        type="checkbox"
+                        checked={content.completed}
+                        onChange={() => onCheckboxChange(content.id)}
+                    />
+                    <span style={{ textDecoration: content.completed ? 'line-through' : 'none' }}>
+                        {content.content}
+                    </span>
+                    <button onClick= {()=> onDeleteHandler(content.id)}>x</button>
+                    </li>
+            ));
+
+            return (
+                <>  
+                    <Header />
+                    <h3>ToDo-List</h3>
+                    <ul style={{ listStyleType: 'none' }}>
+                        {contentList}
+                    </ul>
+                    <input id="input2" onChange ={onChangeHandler} value={inputText} />
+                    <button id="submit" onClick ={onClickHandler}>추가하기</button>
+                    <Footer />
+                </>
+            )
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
