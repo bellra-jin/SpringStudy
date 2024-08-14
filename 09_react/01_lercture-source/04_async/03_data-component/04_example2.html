@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +7,86 @@
     <title>Document</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+    <style>
+        .poketmon {
+            border: 1px dotted black;
+            width: 350px;
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .poketmon img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
     <script type="text/babel">
+
+        const {useState, useEffect} = React;
+
+        function Title() {
+
+            return <h1>Poketmon List</h1>;
+        }
+
+        function PoketmonList() {
+
+            const [characters, setCharacters] = useState([]);
+
+            useEffect(
+                () => {
+                    fetch('https://pokeapi.co/api/v2/pokemon')
+                        .then(response => response.json())
+                        .then(responseCharacters => {
+                            setCharacters(responseCharacters.results);
+                        });
+                }, []
+            );
+
+            console.log(characters)
+
+            return (
+                <div>
+                    {characters.map((character, index) => (
+                        <Poketmon key={index} id={index + 1} character={character} />
+                    ))}    
+                </div>
+            );
+        }
+
+        function Poketmon({ id, character }) {
+            const pokemonId = id;
+            const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+
+            return (
+                <div className="poketmon">
+                    <img src={imageUrl} alt={character.name} />
+                    <p>
+                        No. {pokemonId}<br/>
+                        name: {character.name}
+                    </p>                    
+                </div>
+            );
+        }
+
+        function App() {
+            
+            return (
+                <>
+                    <Title/>
+                    <PoketmonList/>
+                </>
+            );
+        }
         
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
     </script>
 </body>
 </html>
