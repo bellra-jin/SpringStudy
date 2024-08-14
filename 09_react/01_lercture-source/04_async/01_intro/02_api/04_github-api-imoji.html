@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        function App() {
+          const [emojiData, setEmojiData] = useState({});
+          const [inputValue, setInputValue] = useState("");
+          const [url, setURL] = useState("");
+          useEffect(() => {
+            const myToken = '토큰 위치';
+            const option = {
+                method: "GET",
+                headers: {
+                        Accept: "application/vnd.github+json",
+                        Authorization: `Bearer ${myToken}`,
+                        "X-GitHub-Api-Version" : "2022-11-28"
+                },
+            };
+            const getEmoji = async () => {
+              try {
+                const response = await axios(
+                  "https://api.github.com/emojis",
+                  option
+                );
+                setEmojiData(response.data);
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            getEmoji();
+          }, []);
+  
+          const handleInput = (e) => {
+            setInputValue(e.target.value);
+          };
+  
+          const searchEmoji = () => {
+            setURL(emojiData[inputValue]);
+          };
+          return (
+            <div>
+              <div>
+                <div>입력값: {inputValue}</div>
+                <input type="text" onChange={handleInput} />
+                <button onClick={searchEmoji}>검색</button>
+              </div>
+              {url.length === 0 ? <p>텅</p> : <img src={url} />}
+            </div>
+          );
+        }
+  
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+      </script>
+</body>
+</html>
