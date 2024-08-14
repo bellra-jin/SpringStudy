@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function Timer({ startTime, setTimeElapsed }) {
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    setTimeElapsed(now - startTime);
+                }, 10); // 10ms마다 경과 시간을 갱신합니다.
+
+                return () => clearInterval(interval);
+            }, [startTime]);
+
+            return null;
+        }
+
+        function App() {
+            const [text, setText] = useState("");
+            const [timeElapsed, setTimeElapsed] = useState(0);
+            const [startTime, setStartTime] = useState(null);
+            const [initialText, setInitialText] = useState("");
+
+            // 컴포넌트가 처음 마운트될 때 한 번 실행되는 useEffect
+            useEffect(() => {
+                const result = window.prompt("문장을 입력하세요.");
+                setInitialText(result);
+            }, []);
+
+            const onChangeHandler = (e) => {
+                // 사용자가 처음 입력을 시작할 때 타이머가 시작됩니다.
+                if (startTime === null) {
+                    setStartTime(new Date().getTime());
+                }
+                setText(e.target.value);
+            };
+
+            useEffect(() => {
+                // 사용자가 입력한 텍스트가 처음 입력한 텍스트와 일치할 때, 경과 시간을 알림창에 표시합니다.
+                if (text === initialText && startTime !== null) {
+                    alert(`${timeElapsed} ms`);
+                }
+            }, [text, initialText, timeElapsed]);
+
+            return (
+                <>
+                    {startTime && <Timer startTime={startTime} setTimeElapsed={setTimeElapsed} />}
+                    <h1>{initialText}</h1>
+                    <input type="text" name="text" value={text} onChange={onChangeHandler} />
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+        </script>
+    </body>
+</html>
